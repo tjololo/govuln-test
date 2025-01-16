@@ -31,3 +31,11 @@ jobs:
         with:
           sarif_file: govuln.sarif
           category: govulncheck
+      - name: Check SARIF for error-level vulnerabilities
+        run: |
+          if jq '.runs[].results[] | select(.level == "error") | length > 0' govuln.sarif; then
+            echo "Error-level vulnerabilities found in SARIF file"
+            exit 1
+          else
+            echo "No error-level vulnerabilities found in SARIF file"
+          fi
