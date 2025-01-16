@@ -26,10 +26,16 @@ jobs:
           go-version-file: go.mod
           output-format: sarif
           output-file: govuln.sarif
-      - name: print SARIF file
-        run: cat govuln.sarif
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: govuln.sarif
           category: govulncheck
+      - name: Check SARIF for error-level vulnerabilities
+        run: |
+          if jq '.runs[].results[] | select(.level == "error") | length > 0' govuln.sarif; then
+            echo "Error-level vulnerabilities found in SARIF file"
+            exit 1
+          else
+            echo "No error-level vulnerabilities found in SARIF file"
+          fi
