@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Hello, World!")
 	config := &ssh.ServerConfig{
 		PublicKeyCallback: func(conn ssh.ConnMetadata, key ssh.PublicKey) (*ssh.Permissions, error) {
 			// This callback is vulnerable to GHSA-v778-237x-gjrc
