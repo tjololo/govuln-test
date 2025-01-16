@@ -26,6 +26,8 @@ jobs:
           go-version-file: go.mod
           output-format: sarif
           output-file: govuln.sarif
+      - name: print SARIF file
+        run: cat govuln.sarif
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
